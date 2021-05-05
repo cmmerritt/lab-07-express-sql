@@ -1,4 +1,4 @@
-import app from '../lib/app.js';
+/* import app from '../lib/app.js';
 import supertest from 'supertest';
 import client from '../lib/client.js';
 import { execSync } from 'child_process';
@@ -113,4 +113,4 @@ describe('API Routes', () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual(expectedCats[1]);
   });
-});
+}); */
