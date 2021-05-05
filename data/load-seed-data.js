@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import client from '../lib/client.js';
 // import our seed data:
-import cats from './cats.js';
+import dinos from './dinos.js';
 
 run();
 
@@ -10,12 +10,12 @@ async function run() {
   try {
 
     await Promise.all(
-      cats.map(cat => {
+      dinos.map(dino => {
         return client.query(`
-          INSERT INTO cats (name, type, url, year, lives, is_sidekick)
-          VALUES ($1, $2, $3, $4, $5, $6);
+          INSERT INTO dinos (name, dinorder, diet, region, era, url, specimens_found)
+          VALUES ($1, $2, $3, $4, $5, $6, $7);
         `,
-        [cat.name, cat.type, cat.url, cat.year, cat.lives, cat.isSidekick]);
+        [dino.name, dino.dinorder, dino.diet, dino.region, dino.era, dino.url, dino.specimensFound]);
       })
     );
     

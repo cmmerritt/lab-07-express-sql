@@ -10,14 +10,15 @@ async function run() {
 
     // run a query to create tables
     await client.query(`          
-      CREATE TABLE cats (
+      CREATE TABLE dinos (
         id SERIAL PRIMARY KEY NOT NULL,
         name VARCHAR(512) NOT NULL,
-        type VARCHAR(512) NOT NULL,
+        dinorder VARCHAR(512) NOT NULL,
+        diet VARCHAR(512) NOT NULL,
+        region VARCHAR(512) NOT NULL,
+        era VARCHAR(512) NOT NULL,
         url VARCHAR(1024) NOT NULL,
-        year INTEGER NOT NULL,
-        lives INTEGER NOT NULL,
-        is_sidekick BOOLEAN DEFAULT FALSE
+        specimens_found INTEGER NOT NULL
       );
     `);
 
