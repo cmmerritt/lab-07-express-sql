@@ -152,6 +152,19 @@ describe('API Routes', () => {
     nanuq = response.body;
   });
 
+  it('PUT updated nanuq to /api/dinos/:id', async () => {
+    nanuq.specimensFound = 5000;
+    nanuq.name = 'Nanuq';
+
+    const response = await request
+      .put(`/api/dinos/${nanuq.id}`)
+      .send(nanuq);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(nanuq);
+  });
+
+
   // If a GET request is made to /api/cats, does:
   // 1) the server respond with status of 200
   // 2) the body match the expected API data?
