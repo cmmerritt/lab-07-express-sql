@@ -102,7 +102,7 @@ describe('API Routes', () => {
     }
   ];
 
-  let nanuq = [
+  let nanuq = 
     {
       id: expect.any(Number),
       name: 'Nanuqusaurus',
@@ -112,8 +112,8 @@ describe('API Routes', () => {
       era: 'Cretaceous',
       url: '../images/nanuqusaurus.jpeg',
       specimensFound: 1
-    },
-  ];
+    };
+
 
   /* let giga = [
     {
