@@ -141,6 +141,8 @@ describe('API Routes', () => {
     },
   ]; */
 
+  //test 1 - post
+
   it('POST nanuq to /api/dinos', async () => {
     const response = await request
       .post('/api/dinos')
@@ -152,16 +154,52 @@ describe('API Routes', () => {
     nanuq = response.body;
   });
 
+  //test 2 - put 
+
   it('PUT updated nanuq to /api/dinos/:id', async () => {
-    nanuq.specimensFound = 5000;
-    nanuq.name = 'Nanuq';
+    let expectedNanuq = {
+      id: 1,
+      name: 'Nanuq',
+      dinorder: 'saurischian',
+      diet: 'herbi',
+      region: 'North America',
+      era: 'Cretaceous',
+      url: '../images/nanuqusaurus.jpeg',
+      specimensFound: 5000
+    };
+    /* nanuq.specimensFound = 5000;
+    nanuq.name = 'Nanuq'; */
+
+    let newNanuq = {
+      id: 1,
+      name: 'Nanuq',
+      dinorder: 'saurischian',
+      diet: 'herbi',
+      region: 'North America',
+      era: 'Cretaceous',
+      url: '../images/nanuqusaurus.jpeg',
+      specimensFound: 5000
+    };
 
     const response = await request
-      .put(`/api/dinos/${nanuq.id}`)
+      .put('/api/dinos/1')
+      .send(newNanuq);
+    console.log(response.body);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(expectedNanuq);
+  });
+
+  //test 3 - get a list of resources
+
+  it('GET a list of three resources', async () => {
+    const response = await request
+      .post('/api/dinos')
       .send(nanuq);
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual(nanuq);
+    expect.arrayContaining()
+    
+    //nanuq = response.body;
   });
 
 
@@ -188,4 +226,8 @@ describe('API Routes', () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual(expectedDinos[1]);
   });
+
+  // stretch - get api/dinos/names/`${masso.name}`
+  // route - similar to app.get
+  // instead of id req.params.name
 });
