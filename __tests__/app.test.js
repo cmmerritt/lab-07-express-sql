@@ -209,14 +209,14 @@ describe('API Routes', () => {
 
     //delete test 
 
-    it('DELETE pachy from /api/dinos/:id', async () => {
-      const response = await request.delete(`/api/dinos/${pachy.id}`);
+    it('DELETE scany from /api/dinos/:id', async () => {
+      const response = await request.delete(`/api/dinos/${scany.id}`);
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(pachy);
+      expect(response.body).toEqual(scany);
 
       const getResponse = await request.get('/api/dinos');
       expect(getResponse.status).toBe(200);
-      expect(getResponse.body).toEqual(expect.arrayContaining([omei, zhon]));
+      expect(getResponse.body).toEqual(expect.arrayContaining([pachy]));
     });
 
   });
