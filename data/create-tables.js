@@ -9,7 +9,14 @@ async function run() {
   try {
 
     // run a query to create tables
-    await client.query(`          
+    await client.query(`
+      CREATE TABLE users (
+        id SERIAL PRIMARY KEY NOT NULL,
+        name VARCHAR(512) NOT NULL,
+        email VARCHAR(512) NOT NULL,
+        password_hash VARCHAR(512) NOT NULL
+      )
+    
       CREATE TABLE dinos (
         id SERIAL PRIMARY KEY NOT NULL,
         name VARCHAR(512) NOT NULL,
@@ -18,7 +25,8 @@ async function run() {
         region VARCHAR(512) NOT NULL,
         era VARCHAR(512) NOT NULL,
         url VARCHAR(1024) NOT NULL,
-        specimens_found INTEGER NOT NULL
+        specimens_found INTEGER NOT NULL,
+        user_id INTEGER NOT NULL REFERENCES users(id)
       );
     `);
 
