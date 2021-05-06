@@ -6,18 +6,13 @@ import { execSync } from 'child_process';
 const request = supertest(app);
 
 describe('API Routes', () => {
-
-  /*   beforeAll(() => {
-    execSync('npm run setup-db');
-  }); */
-
-  beforeAll(() => {
-    execSync('npm run recreate-tables');
-  });
-
   afterAll(async () => {
     return client.end();
   });
+  /*   beforeAll(() => {
+    execSync('npm run setup-db');
+  }); */
+  
 
   const expectedDinos = [
     {
@@ -101,8 +96,12 @@ describe('API Routes', () => {
       specimensFound: 1
     }
   ];
+  describe('API Routes', () => {
+    beforeAll(() => {
+      execSync('npm run recreate-tables');
+    });
 
-  let nanuq = 
+    let nanuq = 
     {
       id: expect.any(Number),
       name: 'Nanuqusaurus',
@@ -115,7 +114,7 @@ describe('API Routes', () => {
     };
 
 
-  /* let giga = [
+    /*     let giga = 
     {
       id: expect.any(Number),
       name: 'Giganotosaurus',
@@ -125,109 +124,115 @@ describe('API Routes', () => {
       era: 'Cretaceous',
       url: '../images/giganotosaurus.jpeg',
       specimensFound: 3
-    },
-  ]; */
+    }; */
+  
 
-  /*   let masso = [
+    let randodino = 
     {
       id: expect.any(Number),
       name: 'Massospondylus',
-      dinorder: 'saurischian',
+      dinorder: 'hi',
       diet: 'herbivore',
       region: 'Africa',
-      era: 'Jurassic',
+      era: 'yo',
       url: '../images/massospondylus.jpeg',
       specimensFound: 42
-    },
-  ]; */
+    };
 
-  //test 1 - post
+    //test 1 - post
 
-  it('POST nanuq to /api/dinos', async () => {
-    const response = await request
-      .post('/api/dinos')
-      .send(nanuq);
+    it('POST nanuq to /api/dinos', async () => {
+      const response = await request
+        .post('/api/dinos')
+        .send(nanuq);
 
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(nanuq);
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(nanuq);
     
-    nanuq = response.body;
-  });
+      nanuq = response.body;
+    });
 
-  //test 2 - put 
+    //test 2 - put 
 
-  it('PUT updated nanuq to /api/dinos/:id', async () => {
-    let expectedNanuq = {
-      id: 1,
-      name: 'Nanuq',
-      dinorder: 'saurischian',
-      diet: 'herbi',
-      region: 'North America',
-      era: 'Cretaceous',
-      url: '../images/nanuqusaurus.jpeg',
-      specimensFound: 5000
-    };
-    /* nanuq.specimensFound = 5000;
-    nanuq.name = 'Nanuq'; */
 
-    let newNanuq = {
-      id: 1,
-      name: 'Nanuq',
-      dinorder: 'saurischian',
-      diet: 'herbi',
-      region: 'North America',
-      era: 'Cretaceous',
-      url: '../images/nanuqusaurus.jpeg',
-      specimensFound: 5000
-    };
 
-    const response = await request
-      .put('/api/dinos/1')
-      .send(newNanuq);
-    console.log(response.body);
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(expectedNanuq);
-  });
+    it('PUT updated nanuq to /api/dinos/:id', async () => {
+      let expectedNanuq = {
+        id: 1,
+        name: 'Nanuq',
+        dinorder: 'saurischian',
+        diet: 'herbi',
+        region: 'North America',
+        era: 'Cretaceous',
+        url: '../images/nanuqusaurus.jpeg',
+        specimensFound: 5000
+      };
 
-  //test 3 - get a list of resources
+      let newNanuq = {
+        id: 1,
+        name: 'Nanuq',
+        dinorder: 'saurischian',
+        diet: 'herbi',
+        region: 'North America',
+        era: 'Cretaceous',
+        url: '../images/nanuqusaurus.jpeg',
+        specimensFound: 5000
+      };
 
-  it('GET a list of three resources', async () => {
-    const response = await request
-      .post('/api/dinos')
-      .send(nanuq);
+      const response = await request
+        .put('/api/dinos/1')
+        .send(newNanuq);
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(expectedNanuq);
+    });
 
-    expect(response.status).toBe(200);
-    expect.arrayContaining()
+    //test 3 - get a list of resources
+
+
+    it('GET a list of three resources', async () => {
+      const response = await request
+        .post('/api/dinos')
+        .send(randodino);
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(randodino);
     
     //nanuq = response.body;
+    });
   });
+  
+  describe('API Routes', () => {
+    beforeAll(() => {
+      execSync('npm run setup-db');
+    });
 
+    // If a GET request is made to /api/cats, does:
+    // 1) the server respond with status of 200
+    // 2) the body match the expected API data?
+    it('GET /api/dinos', async () => {
 
-  // If a GET request is made to /api/cats, does:
-  // 1) the server respond with status of 200
-  // 2) the body match the expected API data?
-  it.skip('GET /api/dinos', async () => {
-    // act - make the request
-    const response = await request.get('/api/dinos');
+      // act - make the request
+      const response = await request.get('/api/dinos');
 
-    // was response OK (200)?
-    expect(response.status).toBe(200);
+      // was response OK (200)?
+      expect(response.status).toBe(200);
 
-    // did it return the data we expected?
-    expect(response.body).toEqual(expectedDinos);
+      // did it return the data we expected?
+      expect(response.body).toEqual(expectedDinos);
 
-  });
+    });
 
-  // If a GET request is made to /api/cats/:id, does:
-  // 1) the server respond with status of 200
-  // 2) the body match the expected API data for the cat with that id?
-  it.skip('GET /api/dinos/:id', async () => {
-    const response = await request.get('/api/dinos/2');
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(expectedDinos[1]);
-  });
+    // If a GET request is made to /api/cats/:id, does:
+    // 1) the server respond with status of 200
+    // 2) the body match the expected API data for the cat with that id?
+    it('GET /api/dinos/:id', async () => {
+      const response = await request.get('/api/dinos/2');
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(expectedDinos[1]);
+    });
 
   // stretch - get api/dinos/names/`${masso.name}`
   // route - similar to app.get
   // instead of id req.params.name
+  });
 });
