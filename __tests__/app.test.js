@@ -101,104 +101,124 @@ describe('API Routes', () => {
       execSync('npm run recreate-tables');
     });
 
-    let nanuq = 
+    let scany = 
     {
       id: expect.any(Number),
-      name: 'Nanuqusaurus',
+      name: 'Scansoriopteryx',
       dinorder: 'saurischian',
-      diet: 'herbivore',
-      region: 'North America',
-      era: 'Cretaceous',
-      url: '../images/nanuqusaurus.jpeg',
+      diet: 'carnivore',
+      region: 'China',
+      era: 'Jurassic',
+      url: '../images/scansoriopteryx.jpeg',
       specimensFound: 1
     };
 
-
-    /*     let giga = 
+    let pachy = 
     {
       id: expect.any(Number),
-      name: 'Giganotosaurus',
+      name: 'Pachycephalosaurus',
+      dinorder: 'ornithischian',
+      diet: 'herbivore',
+      region: 'North America',
+      era: 'Cretaceous',
+      url: '../images/pachycephalosaurus.jpeg',
+      specimensFound: 30
+    };
+
+
+    let omei = 
+    {
+      id: expect.any(Number),
+      name: 'Omeisaurus',
+      dinorder: 'saurischian',
+      diet: 'herbivore',
+      region: 'China',
+      era: 'Jurassic',
+      url: '../images/omeisaurus.jpeg',
+      specimensFound: 11
+    }; 
+
+    let zhon = 
+    {
+      id: expect.any(Number),
+      name: 'Zhongornis',
       dinorder: 'saurischian',
       diet: 'carnivore',
-      region: 'South America',
+      region: 'China',
       era: 'Cretaceous',
-      url: '../images/giganotosaurus.jpeg',
-      specimensFound: 3
-    }; */
-  
-
-    let randodino = 
-    {
-      id: expect.any(Number),
-      name: 'Massospondylus',
-      dinorder: 'hi',
-      diet: 'herbivore',
-      region: 'Africa',
-      era: 'yo',
-      url: '../images/massospondylus.jpeg',
-      specimensFound: 42
+      url: '../images/scansoriopteryx.jpeg',
+      specimensFound: 1
     };
+  
 
     //test 1 - post
 
-    it('POST nanuq to /api/dinos', async () => {
+    it('POST scany to /api/dinos', async () => {
       const response = await request
         .post('/api/dinos')
-        .send(nanuq);
+        .send(scany);
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(nanuq);
+      expect(response.body).toEqual(scany);
     
-      nanuq = response.body;
+      scany = response.body;
     });
 
     //test 2 - put 
 
-
-
-    it('PUT updated nanuq to /api/dinos/:id', async () => {
-      let expectedNanuq = {
+    it('PUT updated scany to /api/dinos/:id', async () => {
+      let expectedScany = {
         id: 1,
-        name: 'Nanuq',
+        name: 'Scansoriopteryx',
         dinorder: 'saurischian',
-        diet: 'herbi',
-        region: 'North America',
-        era: 'Cretaceous',
-        url: '../images/nanuqusaurus.jpeg',
-        specimensFound: 5000
+        diet: 'carnivore',
+        region: 'China',
+        era: 'Jurassic',
+        url: '../images/scansoriopteryx.jpeg',
+        specimensFound: 1
       };
 
-      let newNanuq = {
+      let newScany = {
         id: 1,
-        name: 'Nanuq',
+        name: 'Scansoriopteryx',
         dinorder: 'saurischian',
-        diet: 'herbi',
-        region: 'North America',
-        era: 'Cretaceous',
-        url: '../images/nanuqusaurus.jpeg',
-        specimensFound: 5000
+        diet: 'carnivore',
+        region: 'China',
+        era: 'Jurassic',
+        url: '../images/scansoriopteryx.jpeg',
+        specimensFound: 1
       };
 
       const response = await request
         .put('/api/dinos/1')
-        .send(newNanuq);
+        .send(newScany);
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(expectedNanuq);
+      expect(response.body).toEqual(expectedScany);
     });
 
     //test 3 - get a list of resources
 
-
     it('GET a list of three resources', async () => {
       const response = await request
         .post('/api/dinos')
-        .send(randodino);
+        .send(pachy, omei, zhon);
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(randodino);
-    
-    //nanuq = response.body;
+      expect(response.body).toEqual(pachy, omei, zhon);
     });
+
+    //delete test 
+
+    it('DELETE scany from /api/dinos/:id', async () => {
+      const response = await request.delete(`/api/dinos/${scany.id}`);
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(scany);
+
+      const getResponse = await request.get('/api/dinos');
+      expect(getResponse.status).toBe(200);
+      expect(getResponse.body).toEqual(expect.arrayContaining([pachy]));
+    });
+
   });
   
   describe('API Routes', () => {
