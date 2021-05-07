@@ -97,8 +97,21 @@ describe('API Routes', () => {
     }
   ];
   describe('API Routes', () => {
-    beforeAll(() => {
+    let user; 
+
+    beforeAll(async () => {
       execSync('npm run recreate-tables');
+    
+      const response = await request 
+        .post('/api/auth/signup')
+        .send({
+          name: 'Me the User',
+          email: 'me@user.com',
+          password: 'password'
+        });
+      
+      expect(response.status).toBe(200);
+      user = response.body;
     });
 
     let scany = 
@@ -154,6 +167,7 @@ describe('API Routes', () => {
     //test 1 - post
 
     it('POST scany to /api/dinos', async () => {
+      scany.userId = user.id;
       const response = await request
         .post('/api/dinos')
         .send(scany);
@@ -167,38 +181,19 @@ describe('API Routes', () => {
     //test 2 - put 
 
     it('PUT updated scany to /api/dinos/:id', async () => {
-      let expectedScany = {
-        id: 1,
-        name: 'Scansoriopteryx',
-        dinorder: 'saurischian',
-        diet: 'carnivore',
-        region: 'China',
-        era: 'Jurassic',
-        url: '../images/scansoriopteryx.jpeg',
-        specimensFound: 1
-      };
-
-      let newScany = {
-        id: 1,
-        name: 'Scansoriopteryx',
-        dinorder: 'saurischian',
-        diet: 'carnivore',
-        region: 'China',
-        era: 'Jurassic',
-        url: '../images/scansoriopteryx.jpeg',
-        specimensFound: 1
-      };
+      scany.diet = 'pizza';
+      scany.era = 'now';
 
       const response = await request
-        .put('/api/dinos/1')
-        .send(newScany);
+        .put(`/api/dinos/${scany.id}`)
+        .send(scany);
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(expectedScany);
+      expect(response.body).toEqual(scany);
     });
 
     //test 3 - get a list of resources
 
-    it('GET a list of three resources', async () => {
+    it.skip('GET a list of three resources', async () => {
       const response = await request
         .post('/api/dinos')
         .send(pachy, omei, zhon);
@@ -209,7 +204,7 @@ describe('API Routes', () => {
 
     //delete test 
 
-    it('DELETE scany from /api/dinos/:id', async () => {
+    it.skip('DELETE scany from /api/dinos/:id', async () => {
       const response = await request.delete(`/api/dinos/${scany.id}`);
       expect(response.status).toBe(200);
       expect(response.body).toEqual(scany);
@@ -229,7 +224,7 @@ describe('API Routes', () => {
     // If a GET request is made to /api/cats, does:
     // 1) the server respond with status of 200
     // 2) the body match the expected API data?
-    it('GET /api/dinos', async () => {
+    it.skip('GET /api/dinos', async () => {
 
       // act - make the request
       const response = await request.get('/api/dinos');
@@ -245,7 +240,7 @@ describe('API Routes', () => {
     // If a GET request is made to /api/cats/:id, does:
     // 1) the server respond with status of 200
     // 2) the body match the expected API data for the cat with that id?
-    it('GET /api/dinos/:id', async () => {
+    it.skip('GET /api/dinos/:id', async () => {
       const response = await request.get('/api/dinos/2');
       expect(response.status).toBe(200);
       expect(response.body).toEqual(expectedDinos[1]);
