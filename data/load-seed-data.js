@@ -12,8 +12,8 @@ async function run() {
     await Promise.all(
       dinos.map(dino => {
         return client.query(`
-          INSERT INTO dinos (name, dinorder, diet, region, era, url, specimens_found, user_id)
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
+          INSERT INTO dinos (name, dinorder, diet, region, era, url, specimens_found)
+          VALUES ($1, $2, $3, $4, $5, $6, $7);
         `,
         [dino.name, dino.dinorder, dino.diet, dino.region, dino.era, dino.url, dino.specimensFound]);
       })

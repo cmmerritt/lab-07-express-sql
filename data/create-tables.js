@@ -15,7 +15,7 @@ async function run() {
         name VARCHAR(512) NOT NULL,
         email VARCHAR(512) NOT NULL,
         password_hash VARCHAR(512) NOT NULL
-      )
+      );
     
       CREATE TABLE dinos (
         id SERIAL PRIMARY KEY NOT NULL,
