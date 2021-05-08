@@ -193,13 +193,29 @@ describe('API Routes', () => {
 
     //test 3 - get a list of resources
 
-    it.skip('GET a list of three resources', async () => {
+    it('GET a list of three resources', async () => {
+      omei.userId = user.id;
+      const r1 = await request.post('/api/dinos').send(omei);
+      omei = r1.body;
+      console.log(omei);
+
+
+      zhon.userId = user.id;
+      const r2 = await request.post('/api/dinos').send(zhon);
+      zhon = r2.body;
+
       const response = await request
-        .post('/api/dinos')
-        .send(pachy, omei, zhon);
+        .get('/api/dinos');
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(pachy, omei, zhon);
+      const expected = [scany, omei, zhon].map(dino => {
+        return { 
+          userName: user.name,
+          ...dino 
+        };
+      });
+      
+      expect(response.body).toEqual(expect.arrayContaining(expected));
     });
 
     //delete test 
