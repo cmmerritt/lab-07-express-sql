@@ -9,10 +9,6 @@ describe('API Routes', () => {
   afterAll(async () => {
     return client.end();
   });
-  /*   beforeAll(() => {
-    execSync('npm run setup-db');
-  }); */
-  
 
   const expectedDinos = [
     {
@@ -96,7 +92,7 @@ describe('API Routes', () => {
       specimensFound: 1
     }
   ];
-  describe('API Routes', () => {
+  describe('/api/dinos', () => {
     let user; 
 
     beforeAll(async () => {
@@ -126,7 +122,7 @@ describe('API Routes', () => {
       specimensFound: 1
     };
 
-    let pachy = 
+    /*     let pachy = 
     {
       id: expect.any(Number),
       name: 'Pachycephalosaurus',
@@ -136,7 +132,7 @@ describe('API Routes', () => {
       era: 'Cretaceous',
       url: '../images/pachycephalosaurus.jpeg',
       specimensFound: 30
-    };
+    }; */
 
 
     let omei = 
@@ -197,7 +193,6 @@ describe('API Routes', () => {
       omei.userId = user.id;
       const r1 = await request.post('/api/dinos').send(omei);
       omei = r1.body;
-      console.log(omei);
 
 
       zhon.userId = user.id;
@@ -218,21 +213,27 @@ describe('API Routes', () => {
       expect(response.body).toEqual(expect.arrayContaining(expected));
     });
 
+    it('GET zhon from /api/dinos/:id', async () => {
+      const response = await request.get(`/api/dinos/${zhon.id}`);
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({ ...zhon, userName: user.name });
+    });
+
     //delete test 
 
-    it.skip('DELETE scany from /api/dinos/:id', async () => {
+    it('DELETE scany from /api/dinos/:id', async () => {
       const response = await request.delete(`/api/dinos/${scany.id}`);
       expect(response.status).toBe(200);
       expect(response.body).toEqual(scany);
 
       const getResponse = await request.get('/api/dinos');
       expect(getResponse.status).toBe(200);
-      expect(getResponse.body).toEqual(expect.arrayContaining([pachy]));
+      expect(getResponse.body.find(dino => dino.id === scany.id));
     });
 
   });
   
-  describe('API Routes', () => {
+  describe('seed data tests', () => {
     beforeAll(() => {
       execSync('npm run setup-db');
     });
@@ -253,17 +254,6 @@ describe('API Routes', () => {
 
     });
 
-    // If a GET request is made to /api/cats/:id, does:
-    // 1) the server respond with status of 200
-    // 2) the body match the expected API data for the cat with that id?
-    it.skip('GET /api/dinos/:id', async () => {
-      const response = await request.get('/api/dinos/2');
-      expect(response.status).toBe(200);
-      expect(response.body).toEqual(expectedDinos[1]);
-    });
-
-  // stretch - get api/dinos/names/`${masso.name}`
-  // route - similar to app.get
-  // instead of id req.params.name
   });
+
 });
