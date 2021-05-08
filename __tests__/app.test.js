@@ -10,7 +10,7 @@ describe('API Routes', () => {
     return client.end();
   });
 
-  const expectedDinos = [
+  /*   const expectedDinos = [
     {
       id: expect.any(Number),
       name: 'Fruitadens',
@@ -91,7 +91,7 @@ describe('API Routes', () => {
       url: '../images/alwalkeria.jpeg',
       specimensFound: 1
     }
-  ];
+  ]; */
   describe('/api/dinos', () => {
     let user; 
 
@@ -101,9 +101,9 @@ describe('API Routes', () => {
       const response = await request 
         .post('/api/auth/signup')
         .send({
-          name: 'Me the User',
-          email: 'me@user.com',
-          password: 'password'
+          name: 'Dino Devotee',
+          email: 'old@bones.gov',
+          password: 'clevergirl'
         });
       
       expect(response.status).toBe(200);
@@ -241,7 +241,7 @@ describe('API Routes', () => {
     // If a GET request is made to /api/cats, does:
     // 1) the server respond with status of 200
     // 2) the body match the expected API data?
-    it.skip('GET /api/dinos', async () => {
+    it('GET /api/dinos', async () => {
 
       // act - make the request
       const response = await request.get('/api/dinos');
@@ -249,8 +249,22 @@ describe('API Routes', () => {
       // was response OK (200)?
       expect(response.status).toBe(200);
 
+      // did it return some data?
+      expect(response.body.length).toBeGreaterThan(0);
+
       // did it return the data we expected?
-      expect(response.body).toEqual(expectedDinos);
+      expect(response.body[0]).toEqual({
+        id: expect.any(Number),
+        name: expect.any(String),
+        dinorder: expect.any(String),
+        diet: expect.any(String),
+        region: expect.any(String),
+        era: expect.any(String),
+        url: expect.any(String),
+        specimensFound: expect.any(Number),
+        userId: expect.any(Number),
+        userName: expect.any(String)
+      });
 
     });
 
